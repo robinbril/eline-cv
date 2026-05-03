@@ -1,0 +1,11 @@
+{
+  "name": "eline-cv",
+  "version": "1.0.0",
+  "description": "CV website Eline Peper - Verpleegkundige niveau 4",
+  "scripts": {
+    "dev": "python3 -m http.server 8000",
+    "start": "python3 -m http.server 8000"
+  },
+  "author": "Eline Peper",
+  "license": "MIT"
+}
