@@ -263,52 +263,6 @@ main p {
 
 .role strong { color: var(--navy); font-weight: 600; }
 
-/* VT-BLOCK (verpleegtechnische handelingen) */
-.vt-block {
-  background: #f6efde;
-  border-left: 3px solid var(--accent);
-  border-radius: 8px;
-  padding: 14px 18px 12px;
-  margin: 12px 0 14px;
-}
-
-.vt-block h4 {
-  font-size: 13px;
-  font-weight: 600;
-  color: var(--navy);
-  margin-bottom: 8px;
-  text-transform: uppercase;
-  letter-spacing: 0.04em;
-}
-
-.vt-list {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-  gap: 4px 16px;
-}
-
-.vt-list li {
-  position: relative;
-  padding-left: 18px;
-  font-size: 14px;
-  font-weight: 500;
-  color: var(--navy);
-  line-height: 1.6;
-}
-
-.vt-list li::before {
-  content: '◆';
-  position: absolute;
-  left: 0;
-  top: 0;
-  color: var(--accent);
-  font-size: 10px;
-  line-height: 1.8;
-}
-
 /* TAGS */
 .tags {
   display: flex;
