@@ -1,273 +1,643 @@
 <!DOCTYPE html>
 <html lang="nl">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <meta name="description" content="CV Eline Peper - Verpleegkundige niveau 4, klinische ervaring Neurologie en Cardiologie." />
-  <title>Eline Peper - Verpleegkundige niveau 4</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Eline Peper - Verpleegkundige niveau 4</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=Lora:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,700&display=swap" rel="stylesheet">
+    <style>
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+        :root {
+            --bg: #fafaf7;
+            --bg-alt: #f3f1ec;
+            --card: #ffffff;
+            --sage: #4a7c62;
+            --sage-soft: #e6efe9;
+            --sage-deep: #2d5740;
+            --blush: #b5707a;
+            --blush-soft: #f5e8ea;
+            --text: #1a1a1a;
+            --text-2: #555;
+            --text-3: #999;
+            --line: #e5e3de;
+            --serif: 'Lora', Georgia, serif;
+            --sans: 'DM Sans', system-ui, sans-serif;
+        }
+
+        html { scroll-behavior: smooth; }
+
+        body {
+            font-family: var(--sans); background: var(--bg); color: var(--text);
+            line-height: 1.6; -webkit-font-smoothing: antialiased;
+            overflow-x: hidden; -webkit-tap-highlight-color: transparent;
+        }
+
+        ::selection { background: var(--sage); color: #fff; }
+
+        /* GRAIN OVERLAY */
+        body::after {
+            content: ''; position: fixed; inset: 0; z-index: 9999; pointer-events: none; opacity: 0.025;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+            background-repeat: repeat; background-size: 128px;
+        }
+
+        /* PRELOADER */
+        .pre {
+            position: fixed; inset: 0; z-index: 10000; background: #0a0f1a;
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
+            transition: clip-path 0.9s cubic-bezier(0.77,0,0.175,1), opacity 0.3s ease 0.7s, visibility 0s linear 1s;
+            clip-path: circle(150% at 50% 50%);
+        }
+        .pre.out {
+            clip-path: circle(0% at 50% 50%);
+            opacity: 0; visibility: hidden;
+        }
+        .pre .pre-code, .pre .pre-bar {
+            transition: opacity 0.3s ease, transform 0.4s cubic-bezier(0.4,0,0.2,1);
+        }
+        .pre.out .pre-code, .pre.out .pre-bar {
+            opacity: 0; transform: scale(0.92);
+        }
+        .hero.entered { opacity: 1; transform: scale(1); filter: blur(0px); }
+        .pre-code { font-family: 'SF Mono', 'Fira Code', 'Consolas', monospace; font-size: 13.5px; line-height: 2.2; color: #64748b; text-align: left; }
+        .pre-code .kw { color: #c792ea; }
+        .pre-code .str { color: #c3e88d; }
+        .pre-code .fn { color: #82aaff; }
+        .pre-code .br { color: #ffcb6b; }
+        .pre-code .line { opacity: 0; animation: typeLine 0.3s ease forwards; }
+        .pre-code .line:nth-child(1) { animation-delay: 0.1s; }
+        .pre-code .line:nth-child(2) { animation-delay: 0.5s; }
+        .pre-code .line:nth-child(3) { animation-delay: 0.75s; }
+        .pre-code .line:nth-child(4) { animation-delay: 1.05s; }
+        @keyframes typeLine { to { opacity: 1; } }
+        .pre-bar { width: 200px; height: 3px; background: #1e293b; border-radius: 3px; margin-top: 32px; overflow: hidden; }
+        .pre-bar i { display: block; height: 100%; width: 0; background: linear-gradient(90deg, #c792ea, #82aaff, #c3e88d); border-radius: 3px; animation: loadBar 1.4s cubic-bezier(0.4,0,0.2,1) forwards; }
+        @keyframes loadBar { to { width: 100%; } }
+
+        /* NAV */
+        nav {
+            position: fixed; top: 0; left: 0; right: 0; z-index: 100; height: 64px;
+            display: flex; align-items: center; justify-content: center;
+            padding: 0 32px; transition: all 0.4s;
+        }
+        nav.s { background: rgba(250,250,247,0.92); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); border-bottom: 1px solid var(--line); }
+        .nav-in { display: flex; align-items: center; justify-content: space-between; width: 100%; max-width: 1100px; }
+        .logo { font-family: var(--serif); font-size: 22px; color: var(--text); text-decoration: none; letter-spacing: -0.5px; }
+        .logo i { color: var(--sage); font-style: normal; }
+        .nav-r { display: flex; gap: 32px; align-items: center; }
+        .nav-r a { font-size: 12.5px; font-weight: 500; color: var(--text-3); text-decoration: none; letter-spacing: 0.5px; text-transform: uppercase; transition: color 0.3s; }
+        .nav-r a:hover { color: var(--text); }
+        .ham { display: none; background: none; border: none; cursor: pointer; width: 28px; height: 20px; position: relative; }
+        .ham span { position: absolute; left: 0; width: 100%; height: 1.5px; background: var(--text); transition: 0.3s; }
+        .ham span:nth-child(1) { top: 0; } .ham span:nth-child(2) { top: 50%; transform: translateY(-50%); } .ham span:nth-child(3) { bottom: 0; }
+
+        /* SECTIONS */
+        .wrap { max-width: 1100px; margin: 0 auto; padding: 0 32px; }
+        .sec { padding: 120px 0; }
+        .sec-head { margin-bottom: 64px; }
+        .sec-label { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 3px; color: var(--sage); margin-bottom: 12px; }
+        .sec-title { font-family: var(--serif); font-size: clamp(32px, 5vw, 52px); color: var(--text); line-height: 1.1; letter-spacing: -1px; }
+        .sec-title em { font-style: italic; color: var(--blush); }
+
+        /* HERO */
+        .hero {
+            min-height: 100vh; display: flex; align-items: center; padding-top: 64px;
+            position: relative; overflow: hidden;
+            opacity: 0; transform: scale(1.03); filter: blur(10px);
+            transition: opacity 0.9s ease, transform 0.9s cubic-bezier(0.4,0,0.2,1), filter 0.9s ease;
+        }
+        .hero-bg {
+            position: absolute; top: -100px; right: -200px; width: 700px; height: 700px;
+            background: radial-gradient(circle, var(--sage-soft) 0%, transparent 70%);
+            border-radius: 50%; opacity: 0.6; pointer-events: none;
+        }
+        .hero-bg-2 {
+            position: absolute; bottom: -150px; left: -100px; width: 500px; height: 500px;
+            background: radial-gradient(circle, var(--blush-soft) 0%, transparent 70%);
+            border-radius: 50%; opacity: 0.5; pointer-events: none;
+        }
+        .hero-in { position: relative; z-index: 1; display: grid; grid-template-columns: 1fr 0.6fr; gap: 80px; align-items: center; }
+        .hero-text { max-width: 600px; }
+        .hero-tag {
+            display: inline-flex; align-items: center; gap: 8px;
+            font-size: 11.5px; font-weight: 600; text-transform: uppercase; letter-spacing: 2px;
+            color: var(--sage); margin-bottom: 28px;
+        }
+        .hero-tag::before { content: ''; width: 6px; height: 6px; background: var(--sage); border-radius: 50%; animation: blink 2s ease infinite; }
+        @keyframes blink { 0%,100% { opacity: 1; } 50% { opacity: 0.2; } }
+        .hero-name {
+            font-family: var(--serif); font-size: clamp(56px, 10vw, 96px);
+            line-height: 0.95; letter-spacing: -3px; margin-bottom: 28px;
+        }
+        .hero-name span { display: block; }
+        .hero-name .fn { color: var(--text); }
+        .hero-name .ln { font-style: italic; color: var(--sage); }
+        .hero-sub { font-size: 17px; color: var(--text-2); line-height: 1.75; max-width: 480px; margin-bottom: 40px; font-weight: 400; }
+        .hero-acts { display: flex; gap: 16px; }
+        .cta {
+            padding: 14px 32px; border-radius: 100px; font-family: var(--sans);
+            font-size: 13px; font-weight: 600; letter-spacing: 0.3px; text-decoration: none;
+            transition: all 0.3s ease; border: none; cursor: pointer; min-height: 48px;
+            display: inline-flex; align-items: center; justify-content: center;
+        }
+        .cta-fill { background: var(--sage); color: #fff; }
+        .cta-fill:hover { background: var(--sage-deep); transform: translateY(-2px); box-shadow: 0 8px 30px rgba(74,124,98,0.3); }
+        .cta-ghost { background: none; color: var(--text); border: 1.5px solid var(--line); }
+        .cta-ghost:hover { border-color: var(--sage); color: var(--sage); }
+
+        /* HERO STATS */
+        .hero-side { display: flex; flex-direction: column; gap: 24px; }
+        .h-stat {
+            padding: 28px; background: var(--card); border: 1px solid var(--line);
+            border-radius: 20px; transition: all 0.35s ease;
+            position: relative; overflow: hidden;
+        }
+        .h-stat::before {
+            content: ''; position: absolute; top: 0; left: 0; width: 3px; height: 100%;
+            background: linear-gradient(to bottom, var(--sage), var(--blush)); opacity: 0;
+            transition: opacity 0.3s;
+        }
+        .h-stat:hover { transform: translateX(4px); box-shadow: 0 8px 32px rgba(0,0,0,0.05); }
+        .h-stat:hover::before { opacity: 1; }
+        .h-stat-num { font-family: var(--serif); font-size: 40px; color: var(--sage); line-height: 1; margin-bottom: 4px; }
+        .h-stat-lbl { font-size: 12px; font-weight: 600; color: var(--text-3); text-transform: uppercase; letter-spacing: 1.5px; }
+
+        /* ABOUT */
+        .about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 48px; align-items: start; }
+        .about-text { font-size: 16px; color: var(--text-2); line-height: 1.85; }
+        .about-text strong { color: var(--text); font-weight: 600; }
+        .about-text .hl { background: linear-gradient(to top, var(--sage-soft) 40%, transparent 40%); padding: 0 2px; font-weight: 500; color: var(--sage-deep); }
+        .about-cards { display: grid; gap: 12px; }
+        .a-card {
+            display: flex; align-items: center; gap: 16px; padding: 18px 22px;
+            background: var(--card); border: 1px solid var(--line); border-radius: 16px;
+            transition: all 0.3s ease;
+        }
+        .a-card:hover { border-color: var(--sage); box-shadow: 0 4px 20px rgba(74,124,98,0.06); transform: translateY(-2px); }
+        .a-ico { width: 40px; height: 40px; background: var(--sage-soft); border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 18px; flex-shrink: 0; }
+        .a-lbl { font-size: 10.5px; font-weight: 600; color: var(--text-3); text-transform: uppercase; letter-spacing: 1px; }
+        .a-val { font-size: 14.5px; font-weight: 600; color: var(--text); }
+
+        /* EXPERIENCE */
+        .exp { background: var(--bg-alt); }
+        .exp-list { display: flex; flex-direction: column; gap: 24px; }
+        .exp-card {
+            display: grid; grid-template-columns: 200px 1fr; gap: 40px;
+            padding: 40px; background: var(--card); border: 1px solid var(--line);
+            border-radius: 24px; transition: all 0.4s ease; position: relative; overflow: hidden;
+        }
+        .exp-card::after {
+            content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px;
+            background: linear-gradient(90deg, var(--sage), var(--blush), transparent);
+            opacity: 0; transition: opacity 0.4s;
+        }
+        .exp-card:hover { box-shadow: 0 16px 48px rgba(0,0,0,0.06); transform: translateY(-3px); }
+        .exp-card:hover::after { opacity: 1; }
+        .exp-left {}
+        .exp-when { font-size: 12.5px; font-weight: 600; color: var(--sage); letter-spacing: 0.3px; margin-bottom: 10px; }
+        .exp-badge {
+            display: inline-block; font-size: 10px; font-weight: 700; text-transform: uppercase;
+            letter-spacing: 1.5px; padding: 4px 12px; border-radius: 100px;
+            background: var(--sage-soft); color: var(--sage-deep);
+        }
+        .exp-badge.past { background: var(--blush-soft); color: var(--blush); }
+        .exp-badge.stage { background: #e8eef4; color: #3a6b9f; }
+        .exp-role { font-family: var(--serif); font-size: 26px; color: var(--text); margin-bottom: 2px; letter-spacing: -0.5px; }
+        .exp-org { font-size: 14px; color: var(--text-3); margin-bottom: 18px; }
+        .exp-desc { list-style: none; margin-bottom: 20px; }
+        .exp-desc li {
+            font-size: 14.5px; color: var(--text-2); line-height: 1.7;
+            padding-left: 20px; margin-bottom: 6px; position: relative;
+        }
+        .exp-desc li::before {
+            content: ''; position: absolute; left: 0; top: 10px;
+            width: 6px; height: 6px; border-radius: 50%;
+            background: var(--sage-soft); border: 1.5px solid var(--sage);
+        }
+        .exp-vt-label { font-size: 13px; font-weight: 600; color: var(--sage-deep); margin: 16px 0 10px; letter-spacing: 0.2px; }
+        .exp-tags { display: flex; flex-wrap: wrap; gap: 6px; }
+        .t { padding: 5px 14px; font-size: 11px; font-weight: 600; border-radius: 100px; letter-spacing: 0.2px; }
+        .t-s { background: var(--sage-soft); color: var(--sage-deep); }
+        .t-b { background: var(--blush-soft); color: var(--blush); }
+
+        /* EDUCATION */
+        .edu-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+        .edu-c {
+            padding: 32px 28px; background: var(--card); border: 1px solid var(--line);
+            border-radius: 20px; transition: all 0.35s ease; position: relative; overflow: hidden;
+        }
+        .edu-c::before {
+            content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 3px;
+            background: linear-gradient(90deg, var(--sage), var(--blush));
+            transform: scaleX(0); transform-origin: left; transition: transform 0.4s cubic-bezier(0.4,0,0.2,1);
+        }
+        .edu-c:hover { transform: translateY(-4px); box-shadow: 0 12px 36px rgba(0,0,0,0.06); }
+        .edu-c:hover::before { transform: scaleX(1); }
+        .edu-emo { font-size: 32px; margin-bottom: 16px; display: block; }
+        .edu-when { font-size: 11px; font-weight: 600; color: var(--sage); letter-spacing: 0.5px; margin-bottom: 8px; }
+        .edu-name { font-family: var(--serif); font-size: 18px; color: var(--text); margin-bottom: 6px; }
+        .edu-sub { font-size: 13px; color: var(--text-3); line-height: 1.55; }
+
+        /* SKILLS */
+        .skills { background: var(--bg-alt); }
+        .sk-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; }
+        .sk-card { padding: 32px; background: var(--card); border: 1px solid var(--line); border-radius: 20px; }
+        .sk-head { font-family: var(--serif); font-size: 18px; color: var(--text); margin-bottom: 20px; display: flex; align-items: center; gap: 10px; }
+        .sk-head span { font-size: 22px; }
+        .sk-tags { display: flex; flex-wrap: wrap; gap: 8px; }
+        .sk-tag {
+            padding: 8px 16px; font-size: 13px; font-weight: 500; border-radius: 100px;
+            letter-spacing: 0.1px; transition: all 0.25s;
+        }
+        .sk-tag-g { background: var(--sage-soft); color: var(--sage-deep); }
+        .sk-tag-g:hover { background: var(--sage); color: #fff; }
+        .sk-tag-r { background: var(--blush-soft); color: var(--blush); }
+        .sk-tag-r:hover { background: var(--blush); color: #fff; }
+        .lang-row { display: flex; gap: 16px; margin-top: 28px; }
+        .lang-c { flex: 1; padding: 24px; background: var(--card); border: 1px solid var(--line); border-radius: 16px; text-align: center; transition: all 0.3s; }
+        .lang-c:hover { transform: translateY(-3px); border-color: var(--sage); box-shadow: 0 8px 24px rgba(0,0,0,0.05); }
+        .lang-f { font-size: 32px; margin-bottom: 8px; }
+        .lang-n { font-family: var(--serif); font-size: 16px; color: var(--text); }
+        .lang-l { font-size: 12px; color: var(--text-3); margin-top: 2px; }
+
+        /* CONTACT */
+        .ct-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; max-width: 820px; margin: 0 auto; }
+        .ct-card {
+            display: flex; flex-direction: column; align-items: center; text-align: center;
+            padding: 40px 24px; background: var(--card); border: 1px solid var(--line);
+            border-radius: 24px; text-decoration: none; color: inherit; transition: all 0.35s;
+        }
+        .ct-card:hover { transform: translateY(-5px); box-shadow: 0 16px 48px rgba(0,0,0,0.07); border-color: var(--sage); }
+        .ct-ico { font-size: 28px; margin-bottom: 16px; width: 56px; height: 56px; display: flex; align-items: center; justify-content: center; background: var(--sage-soft); border-radius: 16px; }
+        .ct-lbl { font-size: 10px; font-weight: 700; color: var(--text-3); text-transform: uppercase; letter-spacing: 1.5px; margin-bottom: 6px; }
+        .ct-val { font-size: 14.5px; font-weight: 600; color: var(--text); }
+
+        /* FOOTER */
+        footer { padding: 40px 0; text-align: center; border-top: 1px solid var(--line); }
+        .f-text { font-size: 12px; color: var(--text-3); cursor: pointer; user-select: none; transition: color 0.3s; letter-spacing: 0.5px; }
+        .f-text:hover { color: var(--text-2); }
+
+        .ee { max-height: 0; overflow: hidden; transition: max-height 0.8s cubic-bezier(0.25,0.8,0.25,1), padding 0.8s; text-align: center; padding: 0 20px; }
+        .ee.show { max-height: 500px; padding: 48px 20px; }
+        .ee img { max-width: 320px; width: 90%; border-radius: 20px; box-shadow: 0 20px 60px rgba(0,0,0,0.12); }
+        .ee p { margin-top: 14px; font-size: 13px; color: var(--text-3); font-style: italic; }
+
+        /* ANIM */
+        .rv { opacity: 0; transform: translateY(24px); transition: opacity 0.5s cubic-bezier(0.4,0,0.2,1), transform 0.5s cubic-bezier(0.4,0,0.2,1); }
+        .rv.v { opacity: 1; transform: none; }
+        .rv-d1 { transition-delay: 0.06s; } .rv-d2 { transition-delay: 0.12s; }
+        .rv-d3 { transition-delay: 0.18s; } .rv-d4 { transition-delay: 0.24s; }
+        .rv-d5 { transition-delay: 0.3s; } .rv-d6 { transition-delay: 0.36s; }
+
+        .hero-in > * { opacity: 0; transform: translateY(24px); animation: fu 0.7s cubic-bezier(0.4,0,0.2,1) forwards; }
+        .hero-in > *:nth-child(1) { animation-delay: 2.0s; }
+        .hero-in > *:nth-child(2) { animation-delay: 2.2s; }
+        @keyframes fu { to { opacity: 1; transform: none; } }
+
+        /* RESPONSIVE */
+        @media (max-width: 900px) {
+            .hero-in { grid-template-columns: 1fr; gap: 40px; }
+            .hero-text { max-width: 100%; }
+            .hero-side { flex-direction: row; gap: 12px; }
+            .h-stat { padding: 20px; }
+            .h-stat-num { font-size: 32px; }
+            .about-grid { grid-template-columns: 1fr; gap: 32px; }
+            .exp-card { grid-template-columns: 1fr; gap: 8px; padding: 28px; }
+            .exp-left { display: flex; align-items: center; gap: 12px; }
+            .edu-grid { grid-template-columns: 1fr 1fr; }
+            .sk-grid { grid-template-columns: 1fr; }
+            .ct-grid { grid-template-columns: 1fr; max-width: 400px; }
+        }
+        @media (max-width: 600px) {
+            .sec { padding: 64px 0; }
+            .sec-head { margin-bottom: 40px; }
+            .wrap { padding: 0 20px; }
+            nav { padding: 0 16px; height: 56px; }
+            .hero { padding-top: 56px; min-height: calc(100vh - 56px); min-height: calc(100dvh - 56px); }
+            .hero-name { font-size: clamp(44px, 14vw, 64px); letter-spacing: -1.5px; }
+            .hero-sub { font-size: 15px; margin-bottom: 28px; }
+            .hero-acts { flex-direction: column; gap: 10px; }
+            .hero-acts .cta { text-align: center; justify-content: center; }
+            .hero-side { flex-direction: column; gap: 10px; }
+            .h-stat { flex-direction: row; align-items: center; gap: 16px; padding: 18px 20px; }
+            .h-stat-num { font-size: 28px; margin-bottom: 0; }
+            .nav-r a { display: none; }
+            .ham { display: block; }
+            .nav-r.open a { display: block; }
+            .nav-r.open {
+                position: absolute; top: 56px; left: 0; right: 0;
+                background: rgba(250,250,247,0.98); backdrop-filter: blur(20px);
+                display: flex; flex-direction: column; padding: 20px; gap: 14px;
+                border-bottom: 1px solid var(--line);
+            }
+            .exp-card { padding: 24px 20px; border-radius: 16px; }
+            .exp-role { font-size: 20px; }
+            .exp-desc li { font-size: 13.5px; }
+            .edu-grid { grid-template-columns: 1fr; gap: 12px; }
+            .edu-c { padding: 24px 20px; border-radius: 16px; }
+            .sk-card { padding: 24px 20px; border-radius: 16px; }
+            .sk-tag { font-size: 12.5px; padding: 7px 14px; }
+            .lang-row { flex-direction: column; gap: 10px; }
+            .lang-c { padding: 18px; }
+            .ct-card { padding: 28px 20px; border-radius: 16px; }
+            .ct-val { font-size: 13px; word-break: break-all; }
+            .sec-title { font-size: clamp(26px, 7vw, 36px); }
+            .about-text { font-size: 15px; }
+            .a-card { padding: 14px 16px; }
+        }
+        @media (max-width: 380px) {
+            .hero-name { font-size: 40px; }
+            .h-stat { padding: 14px 16px; }
+            .h-stat-num { font-size: 24px; }
+        }
+    </style>
 </head>
 <body>
 
-<header class="hero">
-  <div class="container">
-    <p class="kicker">CV - Eline Peper</p>
-    <h1>Verpleegkundige niveau 4</h1>
-    <p class="lead">Klinische ervaring Neurologie &amp; Cardiologie · Gediplomeerd MBO-V (2023) · BIG-registratie in aanvraag</p>
-    <div class="meta">
-      <span>Leiderdorp</span>
-      <span>·</span>
-      <a href="mailto:elinep.peper@gmail.com">elinep.peper@gmail.com</a>
-      <span>·</span>
-      <a href="tel:+31615462106">06 1546 2106</a>
+<!-- PRELOADER -->
+<div class="pre" id="pre">
+    <div class="pre-code">
+        <div class="line"><span class="kw">import</span> <span class="br">{</span> CV <span class="br">}</span> <span class="kw">from</span> <span class="str">'@eline/zorg'</span></div>
+        <div class="line"><span class="kw">const</span> <span class="fn">profiel</span> = CV.<span class="fn">laden</span><span class="br">()</span></div>
+        <div class="line">profiel.<span class="fn">connect</span><span class="br">(</span><span class="str">'verpleegkunde'</span><span class="br">)</span></div>
+        <div class="line"><span class="kw">export default</span> profiel <span class="comment" style="color:#546e7a">// &#10003; ready</span></div>
     </div>
-    <div class="quick-stats">
-      <div class="stat">
-        <span class="num">5,5 jr</span>
-        <span class="lbl">onafgebroken zorgervaring</span>
-      </div>
-      <div class="stat">
-        <span class="num">3 jr</span>
-        <span class="lbl">gediplomeerd verpleegkundige</span>
-      </div>
-      <div class="stat">
-        <span class="num">17 mnd</span>
-        <span class="lbl">klinische ziekenhuisstage</span>
-      </div>
+    <div class="pre-bar"><i></i></div>
+</div>
+
+<!-- NAV -->
+<nav id="nav"><div class="nav-in">
+    <a href="#" class="logo">Eline<i>.</i></a>
+    <div class="nav-r" id="nr">
+        <a href="#about">Over Mij</a>
+        <a href="#exp">Ervaring</a>
+        <a href="#edu">Opleiding</a>
+        <a href="#skills">Vaardigheden</a>
+        <a href="#contact">Contact</a>
+        <button class="ham" id="ham"><span></span><span></span><span></span></button>
     </div>
-  </div>
-</header>
+</div></nav>
 
-<main class="container">
-
-  <!-- PROFIEL -->
-  <section>
-    <h2>Profiel</h2>
-    <p>
-      Gediplomeerd verpleegkundige niveau 4 (MBO-V, ROC Mondriaan, juli 2023) met ruim 5,5 jaar onafgebroken zorgervaring.
-      Klinische ziekenhuiservaring opgedaan tijdens 17 maanden leerwerktraject op de afdelingen Neurologie en Cardiologie van Zorggroep Alrijne.
-      Sinds oktober 2020 in dienst bij Gemiva-SVG Groep, waar ik dagelijks verpleegtechnische handelingen verricht, zorgplannen opstel en uitvoer,
-      en multidisciplinair samenwerk. BIG-registratie in aanvraag. Direct inzetbaar in een klinische ziekenhuissetting met focus op neurologie en psychiatrie.
-    </p>
-  </section>
-
-  <!-- KERNERVARING -->
-  <section>
-    <h2>Kernervaring in een oogopslag</h2>
-    <ul class="checklist">
-      <li><strong>5,5 jaar</strong> onafgebroken zorgervaring in directe patientenzorg (oktober 2020 - heden).</li>
-      <li><strong>3 jaar</strong> gediplomeerd verpleegkundige niveau 4, zelfstandig verpleegtechnische handelingen verrichtend.</li>
-      <li><strong>17 maanden</strong> klinische ziekenhuiservaring op de afdelingen Neurologie en Cardiologie via leerwerktraject Zorggroep Alrijne.</li>
-      <li><strong>Verpleegtechnische handelingen:</strong> medicatie toedienen, vernevelen, zuurstof toedienen, IM/SC injecteren, stomazorg, suprapubische katheter verwisselen, wondverzorging.</li>
-      <li><strong>Opleidingsroute:</strong> VMBO-T (Teylingen College) naar MBO-4 Verpleegkunde (ROC Mondriaan, 2023).</li>
-    </ul>
-  </section>
-
-  <!-- WERKERVARING -->
-  <section>
-    <h2>Werkervaring</h2>
-
-    <article class="role">
-      <header class="role-head">
-        <div>
-          <h3>Persoonlijk begeleider met verpleegtechnische handelingen</h3>
-          <p class="org">Gemiva-SVG Groep · Leiderdorp · Verpleegkundige niveau 4</p>
+<!-- HERO -->
+<section class="hero" id="home">
+    <div class="hero-bg"></div>
+    <div class="hero-bg-2"></div>
+    <div class="wrap hero-in">
+        <div class="hero-text">
+            <div class="hero-tag">Beschikbaar voor nieuwe uitdagingen</div>
+            <h1 class="hero-name">
+                <span class="fn">Eline</span>
+                <span class="ln">Peper</span>
+            </h1>
+            <p class="hero-sub">Gediplomeerd verpleegkundige niveau 4 met ruim 5,5 jaar onafgebroken zorgervaring. Klinische ziekenhuiservaring op de afdelingen Neurologie en Cardiologie, en dagelijks verpleegtechnisch handelen in de gehandicaptenzorg.</p>
+            <div class="hero-acts">
+                <a href="#contact" class="cta cta-fill">Neem Contact Op</a>
+                <a href="#exp" class="cta cta-ghost">Bekijk Ervaring</a>
+            </div>
         </div>
-        <span class="period">jul 2023 - heden · 3 jaar</span>
-      </header>
-      <p>
-        Werkzaam in de directe zorg voor clienten met een verstandelijke beperking en somatische comorbiditeit.
-        Zelfstandige uitvoering van verpleegtechnische handelingen onder BIG-bevoegdheid niveau 4.
-      </p>
-
-      <div class="vt-block">
-        <h4>Verpleegtechnische handelingen die ik zelfstandig uitvoer:</h4>
-        <ul class="vt-list">
-          <li>Medicatie toedienen (oraal, lokaal, subcutaan)</li>
-          <li>Vernevelen</li>
-          <li>Zuurstof toedienen</li>
-          <li>Intramusculair injecteren</li>
-          <li>Subcutaan injecteren (waaronder insuline)</li>
-          <li>Stomazorg</li>
-          <li>Suprapubische katheter verwisselen</li>
-          <li>Wondverzorging</li>
-          <li>Vitale functies meten en interpreteren (BD, pols, saturatie, glucose, temp.)</li>
-        </ul>
-      </div>
-
-      <ul>
-        <li><strong>Zorgplancyclus:</strong> opstellen, uitvoeren en evalueren van individuele zorgplannen volgens methodisch handelen.</li>
-        <li><strong>Crisisinterventie:</strong> begeleiden van clienten in escalerend gedrag of acute situaties (epilepsie-aanvallen, hyperglycemie, gedragscrises). Toepassen van vrijheidsbeperkende maatregelen volgens Wet zorg en dwang.</li>
-        <li><strong>Multidisciplinair overleg:</strong> wekelijks overleg met arts, gedragsdeskundige, fysiotherapeut, familie. Coordinatie van zorg over disciplines.</li>
-        <li><strong>Begeleiding &amp; familiezorg:</strong> coachen van nieuwe collega's en stagiaires. Aanspreekpunt voor familie.</li>
-      </ul>
-      <div class="tags">
-        <span>Vernevelen</span><span>Zuurstof toedienen</span><span>IM injecteren</span><span>Subcutaan injecteren</span><span>Stomazorg</span><span>Suprapubische katheter</span><span>Wondverzorging</span><span>MDO</span><span>Crisisinterventie</span>
-      </div>
-    </article>
-
-    <article class="role highlight">
-      <header class="role-head">
-        <div>
-          <h3>Verpleegkundige in opleiding, afdeling Neurologie</h3>
-          <p class="org">Zorggroep Alrijne · Leiderdorp</p>
+        <div class="hero-side">
+            <div class="h-stat"><div class="h-stat-num">5,5 jr</div><div class="h-stat-lbl">Onafgebroken zorgervaring</div></div>
+            <div class="h-stat"><div class="h-stat-num" data-count="3">0</div><div class="h-stat-lbl">Jaar gediplomeerd vpk</div></div>
+            <div class="h-stat"><div class="h-stat-num" data-count="17">0</div><div class="h-stat-lbl">Mnd klinische ziekenhuisstage</div></div>
         </div>
-        <span class="period">aug 2022 - jun 2023 · 11 maanden</span>
-      </header>
-      <p>
-        Leerwerktraject als verpleegkundige op de afdeling Neurologie. Werkzaam in een klinische ziekenhuissetting.
-        <strong>Direct relevant voor de afdeling VNNP van het LUMC.</strong>
-      </p>
-      <ul>
-        <li><strong>Patientengroep:</strong> neurologische aandoeningen: CVA, TIA, MS, ziekte van Parkinson, epilepsie, neurochirurgische postoperatieve zorg.</li>
-        <li><strong>Klinische observatie:</strong> Glasgow Coma Scale, NIHSS-score, pupilreacties, motoriek, sensibiliteit. Frequente herbeoordeling en rapportage in EPD.</li>
-        <li><strong>Verpleegtechniek:</strong> toedienen van neurologische medicatie, infuusbeleid, anti-stollingsbehandeling, sondevoeding bij dysfagie.</li>
-        <li><strong>Multidisciplinair:</strong> werken in een specialistisch team met neurologen, verpleegkundig specialisten, fysiotherapeuten en logopedisten.</li>
-        <li><strong>Communicatie:</strong> begeleiden van patienten en familie bij vaak ingrijpende diagnoses (CVA-revalidatie, oncologisch neurologisch, dementie).</li>
-      </ul>
-      <div class="tags">
-        <span>CVA / TIA</span><span>MS</span><span>Parkinson</span><span>Neurochirurgie</span><span>GCS / NIHSS</span><span>EPD</span><span>Dysfagie</span>
-      </div>
-    </article>
-
-    <article class="role">
-      <header class="role-head">
-        <div>
-          <h3>Verpleegkundige in opleiding, afdeling Cardiologie</h3>
-          <p class="org">Zorggroep Alrijne · Leiderdorp</p>
-        </div>
-        <span class="period">feb 2022 - aug 2022 · 6 maanden</span>
-      </header>
-      <ul>
-        <li><strong>Patientengroep:</strong> hartinfarct, hartfalen, ritmestoornissen, post-PCI.</li>
-        <li><strong>Klinische observatie:</strong> telemetrie, bloeddrukbewaking, observatie pijn op de borst, herkenning van levensbedreigende situaties.</li>
-      </ul>
-
-      <div class="vt-block">
-        <h4>Verpleegtechnische handelingen tijdens deze stage:</h4>
-        <ul class="vt-list">
-          <li>Medicatie toedienen (cardiale medicatie, anti-stolling)</li>
-          <li>Zuurstof toedienen</li>
-          <li>Intramusculair injecteren</li>
-          <li>Subcutaan injecteren</li>
-          <li>Stomazorg</li>
-          <li>Suprapubische katheter verwisselen</li>
-        </ul>
-      </div>
-
-      <div class="tags">
-        <span>Hartinfarct</span><span>Telemetrie</span><span>Anti-stolling</span><span>Zuurstof toedienen</span><span>IM / SC injecteren</span><span>Suprapubische katheter</span>
-      </div>
-    </article>
-
-    <article class="role">
-      <header class="role-head">
-        <div>
-          <h3>Werknemer / leerling-verpleegkundige</h3>
-          <p class="org">Gemiva-SVG Groep · Leiderdorp</p>
-        </div>
-        <span class="period">okt 2020 - jul 2023 · 2 jaar 9 maanden</span>
-      </header>
-      <p>
-        In dienst gekomen tijdens de opleiding. Steeds toenemende verantwoordelijkheid voor verpleegtechnische taken
-        naarmate de opleiding vorderde. Werk en leer parallel.
-      </p>
-      <ul>
-        <li><strong>Verpleegkundige zorg onder supervisie:</strong> persoonlijke verzorging, medicatie aanreiken (BEM 1-3), zorgplanuitvoering.</li>
-        <li><strong>Observatie &amp; rapportage:</strong> signaleren van veranderingen in gedrag of gezondheid; rapportage in zorgdossier.</li>
-        <li><strong>Multidisciplinaire blootstelling:</strong> meelopen in MDO en familieoverleg ter voorbereiding op de zelfstandige rol.</li>
-      </ul>
-    </article>
-
-    <article class="role compact">
-      <header class="role-head">
-        <div>
-          <h3>Eerdere werkervaring (voor zorg)</h3>
-          <p class="org">HEMA · Pizzeria La Madonna · Leiderdorp</p>
-        </div>
-        <span class="period">dec 2018 - apr 2021</span>
-      </header>
-      <p>
-        Klantgerichte service in retail (HEMA, feb 2019 - apr 2021) en horeca (Pizzeria La Madonna, dec 2018 - apr 2019).
-        Multitasken in dynamische omgevingen, kassawerkzaamheden, gastenservice.
-      </p>
-    </article>
-  </section>
-
-  <!-- OPLEIDING -->
-  <section>
-    <h2>Opleiding</h2>
-
-    <article class="role">
-      <header class="role-head">
-        <div>
-          <h3>MBO niveau 4, Verpleegkunde</h3>
-          <p class="org">ROC Mondriaan · Leiden</p>
-        </div>
-        <span class="period">aug 2019 - jul 2023</span>
-      </header>
-      <p>
-        Volledige beroepsopleiding tot verpleegkundige niveau 4. Theoretische en praktische scholing in
-        verpleegtechnisch handelen, farmacologie, anatomie, fysiologie, pathologie, psychiatrische aandoeningen,
-        methodisch handelen, klinisch redeneren, professionele gespreksvoering en ethiek.
-        <strong>BIG-registratie in aanvraag.</strong>
-      </p>
-    </article>
-
-    <article class="role compact">
-      <header class="role-head">
-        <div>
-          <h3>VMBO-T</h3>
-          <p class="org">Teylingen College Duinzigt · Oegstgeest</p>
-        </div>
-        <span class="period">aug 2015 - aug 2019</span>
-      </header>
-      <p>Diploma behaald.</p>
-    </article>
-  </section>
-
-  <!-- RELEVANTIE LUMC -->
-  <section class="lumc-relevance">
-    <h2>Relevantie voor LUMC, afdeling VNNP</h2>
-    <p>
-      Mijn 11 maanden klinische stage op de afdeling Neurologie van Zorggroep Alrijne sluit direct aan bij de patientengroep
-      van de VNNP: CVA, MS, neurochirurgische postoperatieve zorg en vergelijkbare neurologische aandoeningen.
-      Bij Gemiva werk ik dagelijks met clienten met psychiatrische comorbiditeit (autisme, gedragsproblematiek,
-      gediagnosticeerde stoornissen) waardoor de psychiatrische component van de afdeling VNNP voor mij niet vreemd is.
-      Ik kom binnen met een combinatie van klinische ziekenhuiservaring en ervaring met gedragsobservatie en crisisinterventie,
-      een profiel dat goed aansluit bij de gemengde patientengroep van de afdeling.
-    </p>
-  </section>
-
-  <!-- CONTACT -->
-  <section class="contact">
-    <h2>Contact</h2>
-    <div class="contact-grid">
-      <a href="mailto:elinep.peper@gmail.com" class="contact-item">
-        <span class="contact-label">E-mail</span>
-        <span class="contact-value">elinep.peper@gmail.com</span>
-      </a>
-      <a href="tel:+31615462106" class="contact-item">
-        <span class="contact-label">Telefoon</span>
-        <span class="contact-value">06 1546 2106</span>
-      </a>
-      <div class="contact-item">
-        <span class="contact-label">Locatie</span>
-        <span class="contact-value">Leiderdorp, Nederland</span>
-      </div>
     </div>
-  </section>
+</section>
 
-</main>
+<!-- ABOUT -->
+<section class="sec" id="about"><div class="wrap">
+    <div class="sec-head rv">
+        <div class="sec-label">Over Mij</div>
+        <h2 class="sec-title">Verpleegkundige met<br>hart voor de <em>mens</em></h2>
+    </div>
+    <div class="about-grid">
+        <div class="about-text rv rv-d1">
+            <p>Gediplomeerd MBO-4 verpleegkundige met ruim 5,5 jaar onafgebroken zorgervaring. Sinds oktober 2020 in dienst bij <strong>Gemiva</strong>, sinds juli 2023 als persoonlijk begeleider met <span class="hl">verpleegtechnische handelingen</span>. Dagelijks voer ik zelfstandig handelingen uit als vernevelen, zuurstof toedienen, intramusculair en subcutaan injecteren, stomazorg en suprapubische katheters verwisselen.</p>
+            <br>
+            <p>Tijdens mijn opleiding heb ik 11 maanden stage gelopen op de afdeling <strong>Neurologie</strong> en 6 maanden op de <strong>Cardiologie</strong> van Zorggroep Alrijne. Onze cli&euml;nten bij Gemiva hebben vaak somatische &eacute;n gedragsmatige comorbiditeit, dus rustig blijven en goed observeren wanneer een situatie escaleert is dagelijkse kost.</p>
+        </div>
+        <div class="about-cards rv rv-d2">
+            <div class="a-card"><div class="a-ico">&#128205;</div><div><div class="a-lbl">Locatie</div><div class="a-val">Leiderdorp</div></div></div>
+            <div class="a-card"><div class="a-ico">&#127891;</div><div><div class="a-lbl">Opleiding</div><div class="a-val">MBO-4 Verpleegkunde</div></div></div>
+            <div class="a-card"><div class="a-ico">&#127973;</div><div><div class="a-lbl">Huidige Functie</div><div class="a-val">PB met VT-handelingen, Gemiva</div></div></div>
+            <div class="a-card"><div class="a-ico">&#127760;</div><div><div class="a-lbl">Talen</div><div class="a-val">Nederlands &middot; Engels</div></div></div>
+        </div>
+    </div>
+</div></section>
 
-<footer>
-  <div class="container">
-    <p>Eline Peper · Bijgewerkt mei 2026</p>
-  </div>
-</footer>
+<!-- EXPERIENCE -->
+<section class="sec exp" id="exp"><div class="wrap">
+    <div class="sec-head rv">
+        <div class="sec-label">Werkervaring</div>
+        <h2 class="sec-title">Waar ik heb <em>gewerkt</em></h2>
+    </div>
+    <div class="exp-list">
 
+        <!-- Gemiva post-diploma -->
+        <div class="exp-card rv rv-d1">
+            <div class="exp-left">
+                <div class="exp-when">Jul 2023 &ndash; Heden</div>
+                <div class="exp-badge">Huidige Baan</div>
+            </div>
+            <div>
+                <div class="exp-role">Persoonlijk begeleider met VT-handelingen</div>
+                <div class="exp-org">Gemiva-SVG Groep &ndash; Leiderdorp &ndash; Verpleegkundige niveau 4</div>
+                <ul class="exp-desc">
+                    <li>Begeleiden en verzorgen van bewoners met een verstandelijke beperking en somatische comorbiditeit</li>
+                    <li>Opstellen, uitvoeren en evalueren van individuele zorgplannen met het multidisciplinaire team</li>
+                    <li>Crisisinterventie bij escalerend gedrag of acute situaties (epilepsie-aanvallen, hyperglycemie, gedragscrises)</li>
+                    <li>Signaleren van veranderingen in gedrag of gezondheid en rapporteren in het zorgdossier</li>
+                    <li>Coachen van nieuwe collega's en stagiaires, aanspreekpunt voor familie</li>
+                </ul>
+                <div class="exp-vt-label">Verpleegtechnische handelingen die ik zelfstandig uitvoer:</div>
+                <ul class="exp-desc">
+                    <li>Medicatie toedienen (oraal, lokaal, subcutaan)</li>
+                    <li>Vernevelen</li>
+                    <li>Zuurstof toedienen</li>
+                    <li>Intramusculair injecteren</li>
+                    <li>Subcutaan injecteren (waaronder insuline)</li>
+                    <li>Stomazorg</li>
+                    <li>Suprapubische katheter verwisselen</li>
+                    <li>Wondverzorging</li>
+                    <li>Vitale functies meten en interpreteren</li>
+                </ul>
+                <div class="exp-tags"><span class="t t-s">Vernevelen</span><span class="t t-s">Zuurstof</span><span class="t t-s">IM injecteren</span><span class="t t-s">SC injecteren</span><span class="t t-s">Stomazorg</span><span class="t t-b">Suprapubische katheter</span><span class="t t-b">Wondverzorging</span><span class="t t-b">Crisisinterventie</span><span class="t t-b">MDO</span></div>
+            </div>
+        </div>
+
+        <!-- Stage Neurologie -->
+        <div class="exp-card rv rv-d2">
+            <div class="exp-left">
+                <div class="exp-when">Aug 2022 &ndash; Jun 2023</div>
+                <div class="exp-badge stage">Stage &ndash; 11 mnd</div>
+            </div>
+            <div>
+                <div class="exp-role">Verpleegkundige in opleiding, Neurologie</div>
+                <div class="exp-org">Zorggroep Alrijne &ndash; Leiderdorp &ndash; klinisch leerwerktraject</div>
+                <ul class="exp-desc">
+                    <li>Zelfstandige pati&euml;ntenzorg: CVA, TIA, MS, ziekte van Parkinson, epilepsie, neurochirurgische postoperatieve zorg</li>
+                    <li>Klinische observatie met Glasgow Coma Scale, NIHSS, pupilreacties, motoriek en sensibiliteit</li>
+                    <li>Toedienen van neurologische medicatie, infuusbeleid, anti-stollingsbehandeling, sondevoeding bij dysfagie</li>
+                    <li>Werken in een specialistisch team met neurologen, verpleegkundig specialisten, fysiotherapeuten en logopedisten</li>
+                    <li>Begeleiden van pati&euml;nten en familie bij vaak ingrijpende diagnoses</li>
+                </ul>
+                <div class="exp-tags"><span class="t t-s">CVA / TIA</span><span class="t t-s">MS</span><span class="t t-s">Parkinson</span><span class="t t-s">Neurochirurgie</span><span class="t t-b">GCS / NIHSS</span><span class="t t-b">EPD</span><span class="t t-b">Dysfagie</span></div>
+            </div>
+        </div>
+
+        <!-- Stage Cardiologie -->
+        <div class="exp-card rv rv-d3">
+            <div class="exp-left">
+                <div class="exp-when">Feb 2022 &ndash; Aug 2022</div>
+                <div class="exp-badge stage">Stage &ndash; 6 mnd</div>
+            </div>
+            <div>
+                <div class="exp-role">Verpleegkundige in opleiding, Cardiologie</div>
+                <div class="exp-org">Zorggroep Alrijne &ndash; Leiderdorp &ndash; klinisch leerwerktraject</div>
+                <ul class="exp-desc">
+                    <li>Zorg voor pati&euml;nten met cardiale aandoeningen: hartinfarct, hartfalen, ritmestoornissen, post-PCI</li>
+                    <li>Telemetriebewaking, bloeddrukbewaking, observatie pijn op de borst, herkenning van levensbedreigende situaties</li>
+                </ul>
+                <div class="exp-vt-label">Verpleegtechnische handelingen tijdens deze stage:</div>
+                <ul class="exp-desc">
+                    <li>Medicatie toedienen (cardiale medicatie, anti-stolling)</li>
+                    <li>Zuurstof toedienen</li>
+                    <li>Intramusculair injecteren</li>
+                    <li>Subcutaan injecteren</li>
+                    <li>Stomazorg</li>
+                    <li>Suprapubische katheter verwisselen</li>
+                </ul>
+                <div class="exp-tags"><span class="t t-s">Hartinfarct</span><span class="t t-s">Telemetrie</span><span class="t t-s">Anti-stolling</span><span class="t t-b">Zuurstof</span><span class="t t-b">IM / SC injecteren</span><span class="t t-b">Suprapubische katheter</span></div>
+            </div>
+        </div>
+
+        <!-- Gemiva pre-diploma -->
+        <div class="exp-card rv rv-d4">
+            <div class="exp-left">
+                <div class="exp-when">Okt 2020 &ndash; Jul 2023</div>
+                <div class="exp-badge past">Afgerond</div>
+            </div>
+            <div>
+                <div class="exp-role">Werknemer / leerling-verpleegkundige</div>
+                <div class="exp-org">Gemiva-SVG Groep &ndash; Leiderdorp &ndash; parallel aan opleiding MBO-V</div>
+                <ul class="exp-desc">
+                    <li>Persoonlijke verzorging, medicatie aanreiken (BEM 1-3), zorgplanuitvoering onder begeleiding</li>
+                    <li>Signaleren en rapporteren van veranderingen in gedrag en gezondheid</li>
+                    <li>Toenemende verantwoordelijkheid voor verpleegtechnische taken naarmate de opleiding vorderde</li>
+                </ul>
+                <div class="exp-tags"><span class="t t-s">Verstandelijke beperking</span><span class="t t-s">Zorgplannen</span><span class="t t-b">Methodisch handelen</span></div>
+            </div>
+        </div>
+
+        <!-- HEMA -->
+        <div class="exp-card rv rv-d5">
+            <div class="exp-left">
+                <div class="exp-when">Feb 2019 &ndash; Apr 2021</div>
+                <div class="exp-badge past">Afgerond</div>
+            </div>
+            <div>
+                <div class="exp-role">Winkelmedewerker</div>
+                <div class="exp-org">Hema &ndash; Leiderdorp</div>
+                <ul class="exp-desc">
+                    <li>Klantgerichte service en persoonlijk advies op de winkelvloer</li>
+                    <li>Kassawerkzaamheden en dagafsluiting</li>
+                </ul>
+                <div class="exp-tags"><span class="t t-s">Klantenservice</span><span class="t t-b">Retail</span></div>
+            </div>
+        </div>
+
+        <!-- Pizzeria -->
+        <div class="exp-card rv rv-d6">
+            <div class="exp-left">
+                <div class="exp-when">Dec 2018 &ndash; Apr 2019</div>
+                <div class="exp-badge past">Afgerond</div>
+            </div>
+            <div>
+                <div class="exp-role">Serveerster</div>
+                <div class="exp-org">Pizzeria La Madonna &ndash; Leiderdorp</div>
+                <ul class="exp-desc">
+                    <li>Gastvrij ontvangen en bedienen van gasten</li>
+                    <li>Multitasken in een dynamische omgeving</li>
+                </ul>
+                <div class="exp-tags"><span class="t t-s">Horeca</span><span class="t t-b">Gastvrijheid</span></div>
+            </div>
+        </div>
+
+    </div>
+</div></section>
+
+<!-- EDUCATION -->
+<section class="sec" id="edu"><div class="wrap">
+    <div class="sec-head rv">
+        <div class="sec-label">Opleiding &amp; Stages</div>
+        <h2 class="sec-title">Waar ik heb <em>geleerd</em></h2>
+    </div>
+    <div class="edu-grid">
+        <div class="edu-c rv rv-d1"><span class="edu-emo">&#127891;</span><div class="edu-when">Aug 2019 &ndash; Jul 2023</div><div class="edu-name">MBO-4 Verpleegkunde</div><div class="edu-sub">ROC Mondriaan &ndash; Leiden<br>Verpleegtechnisch handelen, farmacologie, anatomie, klinisch redeneren. BIG-registratie in aanvraag.</div></div>
+        <div class="edu-c rv rv-d2"><span class="edu-emo">&#128218;</span><div class="edu-when">Aug 2015 &ndash; Aug 2019</div><div class="edu-name">VMBO-T</div><div class="edu-sub">Teylingen College Duinzigt &ndash; Oegstgeest<br>Diploma behaald</div></div>
+        <div class="edu-c rv rv-d3"><span class="edu-emo">&#129504;</span><div class="edu-when">Aug 2022 &ndash; Jun 2023</div><div class="edu-name">Stage Neurologie</div><div class="edu-sub">Zorggroep Alrijne &ndash; Leiderdorp<br>CVA, MS, Parkinson, neurochirurgie, GCS/NIHSS</div></div>
+        <div class="edu-c rv rv-d4"><span class="edu-emo">&#10084;&#65039;</span><div class="edu-when">Feb 2022 &ndash; Aug 2022</div><div class="edu-name">Stage Cardiologie</div><div class="edu-sub">Zorggroep Alrijne &ndash; Leiderdorp<br>Telemetrie, acute zorg, anti-stollingsbeleid</div></div>
+        <div class="edu-c rv rv-d5"><span class="edu-emo">&#129309;</span><div class="edu-when">Feb 2021 &ndash; Jun 2021</div><div class="edu-name">Stage Gehandicaptenzorg</div><div class="edu-sub">Gemiva &ndash; Leiderdorp<br>Begeleiding &amp; stimuleren zelfredzaamheid</div></div>
+        <div class="edu-c rv rv-d6"><span class="edu-emo">&#128116;</span><div class="edu-when">Feb 2020 &ndash; Mei 2020</div><div class="edu-name">Stage Ouderenzorg</div><div class="edu-sub">Groot Hoogwaak &ndash; Noordwijk-Binnen<br>Persoonlijke verzorging &amp; begeleiding ouderen</div></div>
+    </div>
+</div></section>
+
+<!-- SKILLS -->
+<section class="sec skills" id="skills"><div class="wrap">
+    <div class="sec-head rv">
+        <div class="sec-label">Vaardigheden</div>
+        <h2 class="sec-title">Wat ik <em>kan</em></h2>
+    </div>
+    <div class="sk-grid">
+        <div class="sk-card rv rv-d1"><div class="sk-head"><span>&#127973;</span> Verpleegtechnisch handelen</div>
+            <div class="sk-tags"><span class="sk-tag sk-tag-g">Vernevelen</span><span class="sk-tag sk-tag-g">Zuurstof toedienen</span><span class="sk-tag sk-tag-g">IM injecteren</span><span class="sk-tag sk-tag-g">SC injecteren</span><span class="sk-tag sk-tag-g">Stomazorg</span><span class="sk-tag sk-tag-g">Suprapubische katheter</span><span class="sk-tag sk-tag-g">Wondverzorging</span><span class="sk-tag sk-tag-g">Medicatie toedienen</span><span class="sk-tag sk-tag-g">Vitale functies</span></div>
+        </div>
+        <div class="sk-card rv rv-d2"><div class="sk-head"><span>&#129504;</span> Klinische observatie</div>
+            <div class="sk-tags"><span class="sk-tag sk-tag-r">Glasgow Coma Scale</span><span class="sk-tag sk-tag-r">NIHSS</span><span class="sk-tag sk-tag-r">Telemetrie</span><span class="sk-tag sk-tag-r">Klinisch redeneren</span><span class="sk-tag sk-tag-r">EPD-rapportage</span><span class="sk-tag sk-tag-r">BHV / EHBO</span></div>
+        </div>
+        <div class="sk-card rv rv-d3"><div class="sk-head"><span>&#129309;</span> Begeleiding &amp; samenwerking</div>
+            <div class="sk-tags"><span class="sk-tag sk-tag-g">Zorgplannen</span><span class="sk-tag sk-tag-g">Crisisinterventie</span><span class="sk-tag sk-tag-g">Gedragsobservatie</span><span class="sk-tag sk-tag-g">Multidisciplinair overleg</span><span class="sk-tag sk-tag-g">Familieondersteuning</span><span class="sk-tag sk-tag-g">Coachen collega's</span></div>
+        </div>
+        <div class="sk-card rv rv-d4"><div class="sk-head"><span>&#128161;</span> Persoonlijk</div>
+            <div class="sk-tags"><span class="sk-tag sk-tag-r">Rustig onder druk</span><span class="sk-tag sk-tag-r">Leergierig</span><span class="sk-tag sk-tag-r">Teamplayer</span><span class="sk-tag sk-tag-r">Oog voor detail</span><span class="sk-tag sk-tag-r">Flexibel</span><span class="sk-tag sk-tag-r">Sociaal</span></div>
+        </div>
+    </div>
+    <div class="lang-row rv rv-d5">
+        <div class="lang-c"><div class="lang-f">&#127475;&#127473;</div><div class="lang-n">Nederlands</div><div class="lang-l">Moedertaal</div></div>
+        <div class="lang-c"><div class="lang-f">&#127468;&#127463;</div><div class="lang-n">Engels</div><div class="lang-l">Goed</div></div>
+    </div>
+</div></section>
+
+<!-- CONTACT -->
+<section class="sec" id="contact"><div class="wrap">
+    <div class="sec-head rv" style="text-align:center;max-width:500px;margin:0 auto 64px;">
+        <div class="sec-label">Contact</div>
+        <h2 class="sec-title">Neem <em>contact</em> op</h2>
+        <p style="font-size:15px;color:var(--text-2);margin-top:14px;line-height:1.7;">Ik sta open voor nieuwe mogelijkheden in de zorg.</p>
+    </div>
+    <div class="ct-grid">
+        <a href="mailto:elinep.peper@gmail.com" class="ct-card rv rv-d1"><div class="ct-ico">&#9993;&#65039;</div><div class="ct-lbl">Email</div><div class="ct-val">elinep.peper@gmail.com</div></a>
+        <a href="tel:0615462106" class="ct-card rv rv-d2"><div class="ct-ico">&#128222;</div><div class="ct-lbl">Telefoon</div><div class="ct-val">06 1546 2106</div></a>
+        <div class="ct-card rv rv-d3"><div class="ct-ico">&#128205;</div><div class="ct-lbl">Locatie</div><div class="ct-val">Leiderdorp</div></div>
+    </div>
+</div></section>
+
+<div class="ee" id="ee"><img src="easter-egg.jpeg" alt="Toekomstvisie"><p>Toekomstvisie &#128516;&#127942;</p></div>
+<footer><div class="wrap"><p class="f-text" id="ft">&copy; 2026 Eline Peper</p></div></footer>
+
+<script>
+window.addEventListener('load',()=>{setTimeout(()=>{document.getElementById('pre').classList.add('out');setTimeout(()=>document.querySelector('.hero').classList.add('entered'),200)},1800)});
+const n=document.getElementById('nav');
+window.addEventListener('scroll',()=>n.classList.toggle('s',scrollY>40));
+document.getElementById('ham').addEventListener('click',()=>document.getElementById('nr').classList.toggle('open'));
+document.querySelectorAll('#nr a').forEach(a=>a.addEventListener('click',()=>document.getElementById('nr').classList.remove('open')));
+const ro=new IntersectionObserver(es=>{es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('v');ro.unobserve(e.target)}})},{threshold:0.1});
+document.querySelectorAll('.rv').forEach(el=>ro.observe(el));
+const co=new IntersectionObserver(es=>{es.forEach(e=>{if(e.isIntersecting){const el=e.target,t=+el.dataset.count;let c=0;const s=()=>{c++;el.textContent=c+'+';if(c<t)requestAnimationFrame(s)};setTimeout(s,100);co.unobserve(el)}})},{threshold:0.5});
+document.querySelectorAll('[data-count]').forEach(el=>co.observe(el));
+document.getElementById('ft').addEventListener('click',()=>document.getElementById('ee').classList.toggle('show'));
+document.getElementById('ee').addEventListener('click',()=>document.getElementById('ee').classList.remove('show'));
+</script>
 </body>
 </html>
